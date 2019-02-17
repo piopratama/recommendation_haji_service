@@ -1,7 +1,6 @@
 <?php
     require_once("coreClass/myObject.php");
     require_once("myClass/loginProcess.php");
-    require_once("myClass/getTableProcess.php");
     require_once("myClass/registrasiProcess.php");
 
     $data_input=json_decode(trim(file_get_contents('php://input')), true);
@@ -51,12 +50,11 @@
                 }
 
                 $loginObject=new loginProcess();
-                $MyObject=$loginObject->checkLogin($username, $password, "tb_employee");
+                $MyObject=$loginObject->checkLogin($username, $password, "tb_login");
             }
-            else if($url=="tablemenu")
+            else if($url=="registrationUser")
             {
-                $tableObject=new getTableProcess();
-                $MyObject=$tableObject->getTableRestaurant("tb_meja");
+
             }
         }
         else

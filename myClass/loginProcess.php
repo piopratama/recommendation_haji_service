@@ -8,7 +8,7 @@
 
         function checkLogin($username, $password, $table)
         {
-            $columns=array('username','password','level','nama as name');
+            $columns=array('username','password','level');
 
             $conditions=array(
                 array('key'=>'username', 'operator'=>'=','value'=>"'".$username."'",'logic'=>'AND'),

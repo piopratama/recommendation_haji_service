@@ -4,7 +4,7 @@
 		var $servername = "localhost";
 		var $username = "root";
 		var $password = "";
-		var $dbname = "db_restaurant";
+		var $dbname = "db_recommendation_haji";
 		var $conn=null;
 
 		function __construct()
@@ -134,7 +134,7 @@
 				$sql="insert tb_kategori(".$this->arrayToStringColumn($columns).") ".$this->arrayToStringValues($data).";";
 				if($raw_data=mysqli_query($this->conn, $sql))
 				{
-					return "1";
+					return $conn->insert_id;
 				}
 				else
 				{
@@ -155,7 +155,7 @@
 
 				if($raw_data=mysqli_query($this->conn, $sql))
 				{
-					return "1";
+					return "Delete Successfully";
 				}
 				else
 				{
@@ -176,7 +176,7 @@
 
 				if($raw_data=mysqli_query($this->conn, $sql))
 				{
-					return "1";
+					return "Update Successfully";
 				}
 				else
 				{
