@@ -13,6 +13,7 @@
             $conditions=array(
                 array('key'=>'username', 'operator'=>'=','value'=>"'".$username."'",'logic'=>'AND'),
                 array('key'=>'password', 'operator'=>'=','value'=>"'".md5($password)."'",'logic'=>'')
+            
             );
 
             $conn=new myConnection();

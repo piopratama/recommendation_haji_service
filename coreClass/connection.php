@@ -46,39 +46,53 @@
 			return "where ".$this->removeWhiteSpace($sql_where);
 		}
 
-		function arrayToStringColumn($columns)
+		function arrayToStringColumn($columns, $bVal=false)
 		{
 			$sql_column="";
 			foreach($columns as $column)
 			{
-				if($sql_column=="")
+				if($bVal)
 				{
-					$sql_column=$column;
+					if($sql_column=="")
+					{
+						$sql_column="'".$column."'";
+					}
+					else
+					{
+						$sql_column=$sql_column.", '".$column."'";
+					}
 				}
 				else
 				{
-					$sql_column=$sql_column.", ".$column;
+					if($sql_column=="")
+					{
+						$sql_column=$column;
+					}
+					else
+					{
+						$sql_column=$sql_column.", ".$column;
+					}
 				}
 			}
 
 			return $this->removeWhiteSpace($sql_column);
 		}
 
-		function  arrayToStringValues($data)
+		function  arrayToStringValues($data, $bVal=false)
 		{
 			$sql_values="";
 			foreach($data as $row)
 			{
 				if($sql_values=="")
 				{
-					$sql_values="values(".$this->arrayToStringColumn($row).")";
+					$sql_values="values(".$this->arrayToStringColumn($row, $bVal).")";
 				}
 				else
 				{
-					$sql_values=$sql_values.",values(".$this->arrayToStringColumn($row).")";
+					$sql_values=$sql_values.",values(".$this->arrayToStringColumn($row, $bVal).")";
 				}
 			}
-
+			
 			return $this->removeWhiteSpace($sql_values);
 		}
 
@@ -131,10 +145,10 @@
 		{
 			try
 			{
-				$sql="insert tb_kategori(".$this->arrayToStringColumn($columns).") ".$this->arrayToStringValues($data).";";
+				$sql="insert ".$table."(".$this->arrayToStringColumn($columns).") ".$this->arrayToStringValues($data, true).";";
 				if($raw_data=mysqli_query($this->conn, $sql))
 				{
-					return $conn->insert_id;
+					return $this->conn->insert_id;
 				}
 				else
 				{

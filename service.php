@@ -2,6 +2,7 @@
     require_once("coreClass/myObject.php");
     require_once("myClass/loginProcess.php");
     require_once("myClass/registrasiProcess.php");
+    require_once("myClass/criteriaProcess.php");
 
     $data_input=json_decode(trim(file_get_contents('php://input')), true);
 
@@ -47,14 +48,108 @@
                     {
                         $descriptionRegistrasi=$data['ObjectInJson'];
                     }
+
                 }
 
                 $loginObject=new loginProcess();
                 $MyObject=$loginObject->checkLogin($username, $password, "tb_login");
+                
             }
             else if($url=="registrationUser")
             {
+                $fullNameRegistration="";
+                $usernameRegistration="";
+                $passwordRegistration="";
+                $dayOfBirthRegistration="";
+                $emailRegistration="";
+                $addressRegistration="";
+                $phoneNumberRegistration="";
+                foreach($data_input as $data)
+                {
 
+                    if($data['ObjectID']=="fullNameRegistration")
+                    {
+                        $fullNameRegistration=$data['ObjectInJson'];
+                    }
+                    
+                    if($data['ObjectID']=="usernameRegistration")
+                    {
+                        $usernameRegistration=$data['ObjectInJson'];
+                    }
+
+                    if($data['ObjectID']=="passwordRegistration")
+                    {
+                        $passwordRegistration=$data['ObjectInJson'];
+                    }
+
+                    if($data['ObjectID']=="dayOfBirthRegistration")
+                    {
+                        $dayOfBirthRegistration=$data['ObjectInJson'];
+                    }
+
+                    if($data['ObjectID']=="emailRegistration")
+                    {
+                        $emailRegistration=$data['ObjectInJson'];
+                    }
+
+                    if($data['ObjectID']=="addressRegistration")
+                    {
+                        $addressRegistration=$data['ObjectInJson'];
+                    }
+
+                    if($data['ObjectID']=="phoneNumberRegistration")
+                    {
+                        $phoneNumberRegistration=$data['ObjectInJson'];
+                    }
+                }
+                $dataUser[0]["id"]="";
+                $dataUser[0]["name"]=$fullNameRegistration;
+                $dataUser[0]["dayOfBirth"]=$dayOfBirthRegistration;
+                $dataUser[0]["address"]=$addressRegistration;
+                $dataUser[0]["telp"]=$phoneNumberRegistration;
+                $dataUser[0]["email"]=$emailRegistration;
+                $dataUser[0]["status"]="";
+
+                $dataLogin[0]["username"]=$usernameRegistration;
+                $dataLogin[0]["password"]=md5($passwordRegistration);
+                $dataLogin[0]["level"]="";
+
+                $registrasiClass=new registrasiProcess();
+                $MyObject = $registrasiClass->insertRegistrasiUser($dataUser, $dataLogin);
+                
+            }
+            else if($url=="criteria")
+            {
+                $dateOfDepartureCriteria="";
+                $dateofReturnCriteria="";
+                $packegesCriteria="";
+                $priceCriteria="";
+                foreach($data_input as $data)
+                {
+                    if($data['ObjectID']=="dateOfDepartureCriteria")
+                    {
+                        $dateOfDepartureCriteria=$data['ObjectInJson'];
+                    }
+
+                    if($data['ObjectID']=="dateOfReturnCriteria")
+                    {
+                        $dateOfReturnCriteria=$data['ObjectInJson'];
+                    }
+
+                    if($data['ObjectID']=="packegesCriteria")
+                    {
+                        $packegesCriteria=$data['ObjectInJson'];
+                    }
+
+                    if($data['ObjectID']=="priceCriteria")
+                    {
+                        $priceCriteria=$data['ObjectInJson'];
+                    }
+                }
+
+                //$loginObject=new loginProcess();
+                //$MyObject=$loginObject->checkLogin($username, $password, "tb_login");
+                
             }
         }
         else
