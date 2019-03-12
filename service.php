@@ -120,6 +120,7 @@
             }
             else if($url=="criteria")
             {
+                //sample input: [{"ObjectID":"url","ObjectInJson":"criteria"},{"ObjectID":"dateOfDepartureCriteria","ObjectInJson":"12"},{"ObjectID":"dateOfDepatureCriteria","ObjectInJson":"12"},{"ObjectID":"packegesCriteria","ObjectInJson":"qw"},{"ObjectID":"priceCriteria","ObjectInJson":"12"}]
                 $dateOfDepartureCriteria="";
                 $dateofReturnCriteria="";
                 $packegesCriteria="";
