@@ -52,7 +52,7 @@
                 }
 
                 $loginObject=new loginProcess();
-                $MyObject=$loginObject->checkLogin($username, $password, "tb_login");
+                $MyObject=$loginObject->checkLogin($username, $password);
                 
             }
             else if($url=="registrationUser")
@@ -120,7 +120,7 @@
             }
             else if($url=="criteria")
             {
-                //sample input: [{"ObjectID":"url","ObjectInJson":"criteria"},{"ObjectID":"dateOfDepartureCriteria","ObjectInJson":"12"},{"ObjectID":"dateOfDepatureCriteria","ObjectInJson":"12"},{"ObjectID":"packegesCriteria","ObjectInJson":"qw"},{"ObjectID":"priceCriteria","ObjectInJson":"12"}]
+                //sample input: [{"ObjectID":"url","ObjectInJson":"criteria"},{"ObjectID":"dateOfDepartureCriteria","ObjectInJson":"12"},{"ObjectID":"dateOfReturnCriteria","ObjectInJson":"12"},{"ObjectID":"packegesCriteria","ObjectInJson":"qw"},{"ObjectID":"priceCriteria","ObjectInJson":"12"}]
                 $dateOfDepartureCriteria="";
                 $dateofReturnCriteria="";
                 $packegesCriteria="";
@@ -147,10 +147,10 @@
                         $priceCriteria=$data['ObjectInJson'];
                     }
                 }
+                $table=
 
-                //$loginObject=new loginProcess();
-                //$MyObject=$loginObject->checkLogin($username, $password, "tb_login");
-                
+                $criteriaProcessClass=new criteriaProcess();
+                $MyObject = $criteriaProcessClass->getBasedOnCriteria($dateOfDepartureCriteria, $dateOfReturnCriteria, $packegesCriteria, $priceCriteria);
             }
         }
         else

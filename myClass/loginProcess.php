@@ -6,7 +6,7 @@
     class loginProcess
     {
 
-        function checkLogin($username, $password, $table)
+        function checkLogin($username, $password, $table="tb_login")
         {
             $columns=array('username','password','level');
 
@@ -31,7 +31,7 @@
                     $MyObject[1]->ObjectInJson = '';
                     $MyObject[2] = new MyObjectInJson();
                     $MyObject[2]->ObjectID = 'data';
-                    $MyObject[2]->ObjectInJson = json_encode($data_user);
+                    $MyObject[2]->ObjectInJson = json_encode($data_user, JSON_UNESCAPED_SLASHES);
                     return $MyObject;
                 }
                 else
