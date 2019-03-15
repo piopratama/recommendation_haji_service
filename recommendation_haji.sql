@@ -47,9 +47,13 @@ CREATE TABLE `tb_packet` (
   `price` double NOT NULL,
   `description` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_packet` */
+
+insert  into `tb_packet`(`id`,`id_travel`,`packet`,`date_start`,`date_end`,`type`,`price`,`description`) values 
+(1,1,'haji diskon 50%','2019-03-01 12:12:42','2019-03-31 12:12:49','haji',5000,'bawa diri saja'),
+(3,1,'umroh','2019-03-01 00:00:00','2019-03-31 00:00:00','haji',5000,'');
 
 /*Table structure for table `tb_travel` */
 
@@ -62,10 +66,14 @@ CREATE TABLE `tb_travel` (
   `telp` varchar(20) NOT NULL,
   `email` varchar(100) NOT NULL,
   `description` text NOT NULL,
+  `logo` text NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tb_travel` */
+
+insert  into `tb_travel`(`id`,`travel`,`address`,`telp`,`email`,`description`,`logo`) values 
+(1,'fast travel','Jakarthah','008','saras008@gmail.com','yang penting happy','http://192.168.100.9/github/recommendation_haji_service/thumbnail/dromedary.png');
 
 /*Table structure for table `tb_user` */
 
