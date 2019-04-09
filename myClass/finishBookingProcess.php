@@ -37,7 +37,7 @@
 
         public function insertDataBooking($dataBooking)
         {
-            $columnsBooking=array('id', 'id_user_packet','name','address','telp','email','image');
+            $columnsBooking=array('id_user_packet','name','address','telp','email','image');
 
             $conn=new myConnection();
             $returnVal=$conn->insert("tb_user_booking", $columnsBooking, $dataBooking);
