@@ -3,14 +3,17 @@
     require_once("myClass/loginProcess.php");
     require_once("myClass/registrasiProcess.php");
     require_once("myClass/criteriaProcess.php");
+    require_once("myClass/finishBookingProcess.php");
+    require_once("coreClass/connection.php");
+    require_once("testingService.php");
 
     $data_input=json_decode(trim(file_get_contents('php://input')), true);
-
     $url="";
-    
-    if(count($data_input)>0)
+    $baseImagePath="http://192.168.100.8/github/recommendation_haji_service";
+   
+    if(count($data_input)>0 && count($data_input)<2)
     {
-
+        echo json_encode(count($data_input));
         foreach($data_input as $data)
         {
             if($data['ObjectID']=="url")
@@ -161,6 +164,93 @@
             $MyObject[1] = new MyObjectInJson();
             $MyObject[1]->ObjectID = 'message';
             $MyObject[1]->ObjectInJson = 'no url parameter matched';
+        }
+    }
+    else if(is_array($data_input[0][0]))
+    {
+        foreach($data_input as $data)
+        {
+            foreach($data as $data2)
+            {
+                if($data2['ObjectID']=="url")
+                {
+                    $url=$data2['ObjectInJson'];
+                }
+            }
+        }
+        if($url=="finishBooking")
+        {
+            foreach($data_input as $data)
+            {
+                $fullNameFinishBooking="";
+                $addressFinishBooking="";
+                $emailFinishBooking="";
+                $phoneFinishBooking="";
+                $imageFinisaBooking="";
+                foreach($data as $data2)
+                {    
+                        if($data2['ObjectID']=="fullNameFinishBooking")
+                        {
+                            $fullNameFinishBooking=$data2['ObjectInJson'];
+                        }
+
+                        if($data2['ObjectID']=="addressFinishBooking")
+                        {
+                            $addressFinishBooking=$data2['ObjectInJson'];
+                        }
+
+                        if($data2['ObjectID']=="emailFinishBooking")
+                        {
+                            $emailFinishBooking=$data2['ObjectInJson'];
+                        }
+
+                        if($data2['ObjectID']=="phoneFinishBooking")
+                        {
+                            $phoneFinishBooking=$data2['ObjectInJson'];
+                        }
+
+                        /*if($data['ObjectID']=="imageFinishBooking")
+                        {
+                            $imageFinishBooking=$data2['ObjectInJson'];
+                        }*/
+
+                        $dataBooking[0]["id"]="";
+                        $dataBooking[0]["id_user_packet"]="";
+                        $dataBooking[0]["name"]=$fullNameFinishBooking;
+                        $dataBooking[0]["address"]=$addressFinishBooking;
+                        $dataBooking[0]["telp"]=$phoneFinishBooking;
+                        $dataBooking[0]["email"]=$emailFinishBooking;
+                        $dataBooking[0]["image"]="";
+
+                        //echo json_encode($dataBooking);
+                }
+            }
+
+            $dataUser[0]["id"]="";
+            $dataUser[0]["id_user"]=2;
+            $dataUser[0]["id_packet"]=1;
+            $dataUser[0]["description"]="";
+            $dataUser[0]["status_book"]=1;
+
+            $finishBookingObject=new finishBookingProcess();
+            $MyObject=$finishBookingObject->insertDataUser($dataUser);
+            $MyObject=$finishBookingObject->insertDataBooking($dataBooking);
+            $imageId= $MyObject[1]->ObjectInJson;
+
+            $path = "assets/images/img".$imageId.".png";
+            /*$status = file_put_contents($path,base64_decode($imageFinishBooking));
+            if($status){
+                echo "Successfully Uploaded";
+            
+            }else{
+                echo "Upload failed";
+            }*/
+
+            $dataImage[0][0]="image";
+            $dataImage[0][1]="'".$baseImagePath."/".$path."'";
+            $dataIdImage=$imageId;
+
+            $MyObject=$finishBookingObject->updateDataBooking($dataImage, $dataIdImage);
         }
     }
     else
