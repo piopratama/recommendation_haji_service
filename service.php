@@ -180,13 +180,17 @@
         }
         if($url=="finishBooking")
         {
+            $i=0;
             foreach($data_input as $data)
             {
                 $fullNameFinishBooking="";
                 $addressFinishBooking="";
                 $emailFinishBooking="";
                 $phoneFinishBooking="";
-                $imageFinisaBooking="";
+                $imageFinishBooking="";
+                $idUser="";
+                $idPacket="";
+                $description="";
                 foreach($data as $data2)
                 {    
                         if($data2['ObjectID']=="fullNameFinishBooking")
@@ -209,48 +213,70 @@
                             $phoneFinishBooking=$data2['ObjectInJson'];
                         }
 
-                        /*if($data['ObjectID']=="imageFinishBooking")
+                        if($data2['ObjectID']=="imageFinishBooking")
                         {
                             $imageFinishBooking=$data2['ObjectInJson'];
-                        }*/
+                        }
 
-                        $dataBooking[0]["id"]="";
-                        $dataBooking[0]["id_user_packet"]="";
-                        $dataBooking[0]["name"]=$fullNameFinishBooking;
-                        $dataBooking[0]["address"]=$addressFinishBooking;
-                        $dataBooking[0]["telp"]=$phoneFinishBooking;
-                        $dataBooking[0]["email"]=$emailFinishBooking;
-                        $dataBooking[0]["image"]="";
+                        if($data2['ObjectID']=="idUser")
+                        {
+                            $idUser=$data2['ObjectInJson'];
+                        }
 
+                        if($data2['ObjectID']=="idPacket")
+                        {
+                            $idPacket=$data2['ObjectInJson'];
+                        }
+
+                        if($data2['ObjectID']=="description")
+                        {
+                            $description=$data2['ObjectInJson'];
+                        }
                         //echo json_encode($dataBooking);
                 }
+                $dataBooking[$i]["id_user_packet"]="";
+                $dataBooking[$i]["name"]=$fullNameFinishBooking;
+                $dataBooking[$i]["address"]=$addressFinishBooking;
+                $dataBooking[$i]["telp"]=$phoneFinishBooking;
+                $dataBooking[$i]["email"]=$emailFinishBooking;
+                $dataBooking[$i]["image"]=$imageFinishBooking;
+                $i++;
             }
 
             $dataUser[0]["id"]="";
-            $dataUser[0]["id_user"]=2;
-            $dataUser[0]["id_packet"]=1;
-            $dataUser[0]["description"]="";
+            $dataUser[0]["id_user"]=$idUser;
+            $dataUser[0]["id_packet"]=$idPacket;
+            $dataUser[0]["description"]=$description;
             $dataUser[0]["status_book"]=1;
 
+            
             $finishBookingObject=new finishBookingProcess();
             $MyObject=$finishBookingObject->insertDataUser($dataUser);
-            $MyObject=$finishBookingObject->insertDataBooking($dataBooking);
-            $imageId= $MyObject[1]->ObjectInJson;
 
-            $path = "assets/images/img".$imageId.".png";
-            /*$status = file_put_contents($path,base64_decode($imageFinishBooking));
-            if($status){
-                echo "Successfully Uploaded";
-            
-            }else{
-                echo "Upload failed";
-            }*/
+            $id_user_packet=$MyObject[1]->ObjectInJson;
+            for($i=0;$i<count($dataBooking);$i++)
+            {
+                $dataBooking[$i]["id_user_packet"]=$id_user_packet;
+                $temp[0]=$dataBooking[$i];
+                $MyObject=$finishBookingObject->insertDataBooking($temp);
 
-            $dataImage[0][0]="image";
-            $dataImage[0][1]="'".$baseImagePath."/".$path."'";
-            $dataIdImage=$imageId;
+                $imageId= $MyObject[1]->ObjectInJson;
 
-            $MyObject=$finishBookingObject->updateDataBooking($dataImage, $dataIdImage);
+                $path = "assets/images/img".$imageId.".png";
+                $status = file_put_contents($path,base64_decode($dataBooking[$i]["image"]));
+                if($status){
+                    //echo "Successfully Uploaded";
+                
+                }else{
+                    //echo "Upload failed";
+                }
+
+                $dataImage[0][0]="image";
+                $dataImage[0][1]="'".$baseImagePath."/".$path."'";
+                $dataIdImage=$imageId;
+
+                $MyObject=$finishBookingObject->updateDataBooking($dataImage, $dataIdImage);
+            }
         }
     }
     else

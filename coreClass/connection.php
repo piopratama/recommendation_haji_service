@@ -89,7 +89,7 @@
 				}
 				else
 				{
-					$sql_values=$sql_values.",values(".$this->arrayToStringColumn($row, $bVal).")";
+					$sql_values=$sql_values.",(".$this->arrayToStringColumn($row, $bVal).")";
 				}
 			}
 			
@@ -107,7 +107,7 @@
 				}
 				else
 				{
-					$sql_update=$sql_update.", ". $row[0]."=".$row[1];
+					$sql_update=$sql_update.", ". $row[0]."=".$row[1]; 
 				}
 			}
 
