@@ -8,7 +8,7 @@
     require_once("testingService.php");
 
     $data_input=json_decode(trim(file_get_contents('php://input')), true);
-    $url="";
+    echo json_encode()
     $baseImagePath="http://192.168.100.8/github/recommendation_haji_service";
    
     if(count($data_input)>0 && count($data_input)<2)
