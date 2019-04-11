@@ -75,7 +75,7 @@
             $conn=new myConnection();
             $updateDataBooking =$conn->update("tb_user_booking", $dataImage, $conditions);
 
-            if (filter_var($updateDataBooking, FILTER_VALIDATE_INT) === 0 || filter_var($updateDataBooking, FILTER_VALIDATE_INT)) {
+            if ($updateDataBooking=="Update Successfully") {
                 //PIO + 20190127 add last id insert in tb_user ton first index of the array
                 //array_unshift($dataUser, $returnVal);
                 $MyObject[0] = new MyObjectInJson();

@@ -8,7 +8,7 @@
 
         function checkLogin($username, $password, $table="tb_login")
         {
-            $columns=array('username','password','level');
+            $columns=array('id','username','password','level');
 
             $conditions=array(
                 array('key'=>'username', 'operator'=>'=','value'=>"'".$username."'",'logic'=>'AND'),

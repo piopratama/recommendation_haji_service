@@ -8,12 +8,10 @@
     require_once("testingService.php");
 
     $data_input=json_decode(trim(file_get_contents('php://input')), true);
-    echo json_encode()
     $baseImagePath="http://192.168.100.8/github/recommendation_haji_service";
-   
-    if(count($data_input)>0 && count($data_input)<2)
+
+    if(count($data_input)>0 && array_key_exists('0',$data_input[0])==false)
     {
-        echo json_encode(count($data_input));
         foreach($data_input as $data)
         {
             if($data['ObjectID']=="url")
@@ -63,10 +61,10 @@
                 $fullNameRegistration="";
                 $usernameRegistration="";
                 $passwordRegistration="";
-                $dayOfBirthRegistration="";
                 $emailRegistration="";
                 $addressRegistration="";
                 $phoneNumberRegistration="";
+                $imageRegistration="";
                 foreach($data_input as $data)
                 {
 
@@ -85,11 +83,6 @@
                         $passwordRegistration=$data['ObjectInJson'];
                     }
 
-                    if($data['ObjectID']=="dayOfBirthRegistration")
-                    {
-                        $dayOfBirthRegistration=$data['ObjectInJson'];
-                    }
-
                     if($data['ObjectID']=="emailRegistration")
                     {
                         $emailRegistration=$data['ObjectInJson'];
@@ -104,21 +97,25 @@
                     {
                         $phoneNumberRegistration=$data['ObjectInJson'];
                     }
+
+                    if($data['ObjectID']=="imageRegistration")
+                    {
+                        $imageRegistration=$data['ObjectInJson'];
+                    }
                 }
-                $dataUser[0]["id"]="";
                 $dataUser[0]["name"]=$fullNameRegistration;
-                $dataUser[0]["dayOfBirth"]=$dayOfBirthRegistration;
                 $dataUser[0]["address"]=$addressRegistration;
                 $dataUser[0]["telp"]=$phoneNumberRegistration;
                 $dataUser[0]["email"]=$emailRegistration;
-                $dataUser[0]["status"]="";
+                $dataUser[0]["image"]=$imageRegistration;
 
                 $dataLogin[0]["username"]=$usernameRegistration;
                 $dataLogin[0]["password"]=md5($passwordRegistration);
-                $dataLogin[0]["level"]="";
+                $dataLogin[0]["level"]=1;
 
                 $registrasiClass=new registrasiProcess();
-                $MyObject = $registrasiClass->insertRegistrasiUser($dataUser, $dataLogin);
+                $MyObject = $registrasiClass->insertDataUser($dataUser);
+                $MyObject = $registrasiClass->insertDataLogin($dataLogin);
                 
             }
             else if($url=="criteria")
@@ -218,23 +215,23 @@
                             $imageFinishBooking=$data2['ObjectInJson'];
                         }
 
-                        if($data2['ObjectID']=="idUser")
+                        if($data2['ObjectID']=="idUserFinishBooking")
                         {
                             $idUser=$data2['ObjectInJson'];
                         }
 
-                        if($data2['ObjectID']=="idPacket")
+                        if($data2['ObjectID']=="idPacketFinishBooking")
                         {
                             $idPacket=$data2['ObjectInJson'];
                         }
 
-                        if($data2['ObjectID']=="description")
+                        if($data2['ObjectID']=="descriptionFinishBooking")
                         {
                             $description=$data2['ObjectInJson'];
                         }
                         //echo json_encode($dataBooking);
                 }
-                $dataBooking[$i]["id_user_packet"]="";
+                $dataBooking[$i]["id_user_packet"]=$idPacket;
                 $dataBooking[$i]["name"]=$fullNameFinishBooking;
                 $dataBooking[$i]["address"]=$addressFinishBooking;
                 $dataBooking[$i]["telp"]=$phoneFinishBooking;
