@@ -4,12 +4,13 @@
     require_once("myClass/registrasiProcess.php");
     require_once("myClass/criteriaProcess.php");
     require_once("myClass/finishBookingProcess.php");
+    require_once("myClass/statusBookingProcess.php");
     require_once("coreClass/connection.php");
     require_once("testingService.php");
 
     $data_input=json_decode(trim(file_get_contents('php://input')), true);
-    $baseImagePath="http://192.168.100.8/github/recommendation_haji_service";
-
+    $baseImagePath="http://192.168.100.7/github/recommendation_haji_service";
+    
     if(count($data_input)>0 && array_key_exists('0',$data_input[0])==false)
     {
         foreach($data_input as $data)
@@ -151,6 +152,22 @@
 
                 $criteriaProcessClass=new criteriaProcess();
                 $MyObject = $criteriaProcessClass->getBasedOnCriteria($dateOfDepartureCriteria, $dateOfReturnCriteria, $packegesCriteria, $priceCriteria);
+            }
+            else if($url=="statusbooking")
+            {
+                //sample input: [{"ObjectID":"url","ObjectInJson":"criteria"},{"ObjectID":"dateOfDepartureCriteria","ObjectInJson":"12"},{"ObjectID":"dateOfReturnCriteria","ObjectInJson":"12"},{"ObjectID":"packegesCriteria","ObjectInJson":"qw"},{"ObjectID":"priceCriteria","ObjectInJson":"12"}]
+                $idUser="";
+                foreach($data_input as $data)
+                {
+                    if($data['ObjectID']=="idUser")
+                    {
+                        $dateOfDepartureCriteria=$data['ObjectInJson'];
+                    }
+                }
+                $table=
+
+                $statusBookingProcessClass=new statusBookingProcess();
+                $MyObject = $statusBookingProcessClass->getStatusBooking($dateOfDepartureCriteria, $dateOfReturnCriteria, $packegesCriteria, $priceCriteria);
             }
         }
         else
