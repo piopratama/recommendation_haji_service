@@ -10,7 +10,7 @@
 
     $data_input=json_decode(trim(file_get_contents('php://input')), true);
     $baseImagePath="http://192.168.100.7/github/recommendation_haji_service";
-    
+
     if(count($data_input)>0 && array_key_exists('0',$data_input[0])==false)
     {
         foreach($data_input as $data)
@@ -104,19 +104,21 @@
                         $imageRegistration=$data['ObjectInJson'];
                     }
                 }
-                $dataUser[0]["name"]=$fullNameRegistration;
-                $dataUser[0]["address"]=$addressRegistration;
-                $dataUser[0]["telp"]=$phoneNumberRegistration;
-                $dataUser[0]["email"]=$emailRegistration;
-                $dataUser[0]["image"]=$imageRegistration;
-
+                $dataLogin[0]["id"]="";
                 $dataLogin[0]["username"]=$usernameRegistration;
                 $dataLogin[0]["password"]=md5($passwordRegistration);
                 $dataLogin[0]["level"]=1;
 
                 $registrasiClass=new registrasiProcess();
-                $MyObject = $registrasiClass->insertDataUser($dataUser);
                 $MyObject = $registrasiClass->insertDataLogin($dataLogin);
+                $dataUser[0]["id"]=$MyObject[1]->ObjectInJson;
+                $dataUser[0]["name"]=$fullNameRegistration;
+                $dataUser[0]["address"]=$addressRegistration;
+                $dataUser[0]["telp"]=$phoneNumberRegistration;
+                $dataUser[0]["email"]=$emailRegistration;
+                $dataUser[0]["image"]=$imageRegistration;
+                $MyObject = $registrasiClass->insertDataUser($dataUser);
+                
                 
             }
             else if($url=="criteria")
@@ -159,15 +161,15 @@
                 $idUser="";
                 foreach($data_input as $data)
                 {
-                    if($data['ObjectID']=="idUser")
+                    if($data['ObjectID']=="idUserStatusBooking")
                     {
-                        $dateOfDepartureCriteria=$data['ObjectInJson'];
+                        $idUser=$data['ObjectInJson'];
                     }
                 }
                 $table=
 
                 $statusBookingProcessClass=new statusBookingProcess();
-                $MyObject = $statusBookingProcessClass->getStatusBooking($dateOfDepartureCriteria, $dateOfReturnCriteria, $packegesCriteria, $priceCriteria);
+                $MyObject = $statusBookingProcessClass->getStatusBooking($idUser);
             }
         }
         else

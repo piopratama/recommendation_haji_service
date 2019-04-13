@@ -5,17 +5,17 @@
 
     class statusBookingProcess{
         
-        function getStatusBooking($idUser,$table="tb_user_booking")
+        function getStatusBooking($idUser)
         {
-            $columns=array('name, address, telp, email, status, description');
-
+            $columns=array('name', 'address', 'telp', 'email', 'tb_user_booking.description as description', 'status');
+            $table="tb_user_packet INNER JOIN tb_user_booking ON tb_user_packet.id=tb_user_booking.id_user_packet";
             $conditions=array(
-                array('key'=>'', 'operator'=>'=','value'=>"'".$idUser."'",'logic'=>'')
+                array('key'=>'id_user', 'operator'=>'=','value'=>"'".$idUser."'",'logic'=>'')
             );
 
             $conn=new myConnection();
             $data=$conn->select($table, $columns, $conditions);
-
+            //echo json_encode(count($data));
             if(count($data)>0)
             {
                 $MyObject[0] = new MyObjectInJson();

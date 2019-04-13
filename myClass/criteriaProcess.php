@@ -10,7 +10,7 @@
             'tb_packet.id_travel', 
             'tb_travel.travel', 'tb_travel.address', 'tb_travel.telp',
             'tb_travel.email', 'tb_travel.description AS travel_description',
-            'tb_packet.packet', 'tb_packet.price', 'tb_packet.description AS packet_description', 'tb_packet.type','tb_travel.logo');
+            'tb_packet.packet', 'tb_packet.price', 'tb_packet.description AS packet_description', 'tb_packet.type','tb_travel.logo','tb_travel.license', 'tb_travel.rating');
 
             $table="tb_packet INNER JOIN tb_travel ON tb_packet.id_travel=tb_travel.id";
 

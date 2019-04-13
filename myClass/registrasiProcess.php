@@ -6,8 +6,7 @@
     class registrasiProcess{
         public function insertDataLogin($dataLogin)
         {
-            $columnsLogin=array('username','password','level');
-            $columnsUser=array('name', 'address','telp','email','image');
+            $columnsLogin=array('id', 'username','password','level');
 
             $conn=new myConnection();
             $returnVal=$conn->insert("tb_login", $columnsLogin, $dataLogin);
@@ -36,9 +35,7 @@
 
         public function insertDataUser($dataUser)
         {
-            $columnsLogin=array('username','password','level');
-            $columnsUser=array('name', 'address','telp','email','image');
-
+            $columnsUser=array('id', 'name', 'address','telp','email','image');
             $conn=new myConnection();
             $returnVal=$conn->insert("tb_user", $columnsUser, $dataUser);
             
