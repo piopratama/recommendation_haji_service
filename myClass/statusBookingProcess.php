@@ -36,7 +36,7 @@
                 $MyObject[0]->ObjectInJson = -1;
                 $MyObject[1] = new MyObjectInJson();
                 $MyObject[1]->ObjectID = 'message';
-                $MyObject[1]->ObjectInJson = '-1';
+                $MyObject[1]->ObjectInJson = 'No data found with that criteria';
                 return  $MyObject;
             }
        }

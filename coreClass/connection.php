@@ -133,6 +133,7 @@
 				{
 					return $this->errorMessage(get_class($this), __METHOD__, $sql, mysqli_error($this->conn));
 				}
+				echo $sql;
 			}
 			catch(Exception $e)
 			{

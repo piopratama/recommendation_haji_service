@@ -6,10 +6,10 @@
     require_once("myClass/finishBookingProcess.php");
     require_once("myClass/statusBookingProcess.php");
     require_once("coreClass/connection.php");
-    require_once("testingService.php");
+    //require_once("testingService.php");
 
     $data_input=json_decode(trim(file_get_contents('php://input')), true);
-    $baseImagePath="http://192.168.100.7/github/recommendation_haji_service";
+    $baseImagePath="http://192.168.1.7/github/recommendation_haji_service";
 
     if(count($data_input)>0 && array_key_exists('0',$data_input[0])==false)
     {

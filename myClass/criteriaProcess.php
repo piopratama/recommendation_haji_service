@@ -15,10 +15,10 @@
             $table="tb_packet INNER JOIN tb_travel ON tb_packet.id_travel=tb_travel.id";
 
             $conditions=array(
-                array('key'=>'price', 'operator'=>'=','value'=>"'".$priceCriteria."'",'logic'=>'AND'),
+                array('key'=>'price', 'operator'=>'<=','value'=>"".$priceCriteria."",'logic'=>'AND'),
                 array('key'=>'type', 'operator'=>'=','value'=>"'".$packegesCriteria."'",'logic'=>'AND'),
-                array('key'=>'DATE(date_start)', 'operator'=>'=','value'=>"'".$dateOfDepartureCriteria."'",'logic'=>'AND'), 
-                array('key'=>'DATE(date_end) ', 'operator'=>'=','value'=>"'".$dateOfReturnCriteria."'",'logic'=>'')
+                array('key'=>'DATE(date_start)', 'operator'=>'>=','value'=>"'".$dateOfDepartureCriteria."'",'logic'=>'AND'), 
+                array('key'=>'DATE(date_end) ', 'operator'=>'<=','value'=>"'".$dateOfReturnCriteria."'",'logic'=>'')
             );
 
             $conn=new myConnection();
